@@ -16,7 +16,7 @@ import Warenhouse from "./Pages/WarenHouse/Warenhouse";
 
 const App = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "https://posautomation.vercel.app/login" || location.pathname === "https://posautomation.vercel.app/";
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/";
   
 
   return (
@@ -25,13 +25,13 @@ const App = () => {
 
       <main className="flex-grow flex justify-center items-center">
           <Routes>
-              <Route path="https://posautomation.vercel.app/" element={<Login/>}/>
-              <Route path="https://posautomation.vercel.app/login" element={<Login />} />
-              <Route path="https://posautomation.vercel.app/register_a_item" element={<ProtectedRoute><RegisterItem /> </ProtectedRoute>} />
-              <Route path="https://posautomation.vercel.app/use_case" element={<ProtectedRoute> <UseCase /> </ProtectedRoute>} />
-              <Route path="https://posautomation.vercel.app/info_record" element={<ProtectedRoute> <RegisterAInforRecord /> </ProtectedRoute>} />
-              <Route path="https://posautomation.vercel.app/inventory_management" element={<ProtectedRoute> <Warenhouse /> </ProtectedRoute>} />
-              <Route path="https://posautomation.vercel.app/po_management" element={<ProtectedRoute> <Manufacturing /> </ProtectedRoute>}/>
+              <Route path="/" element={<Login/>}/>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register_a_item" element={<ProtectedRoute><RegisterItem /> </ProtectedRoute>} />
+              <Route path="/use_case" element={<ProtectedRoute> <UseCase /> </ProtectedRoute>} />
+              <Route path="/info_record" element={<ProtectedRoute> <RegisterAInforRecord /> </ProtectedRoute>} />
+              <Route path="/inventory_management" element={<ProtectedRoute> <Warenhouse /> </ProtectedRoute>} />
+              <Route path="/po_management" element={<ProtectedRoute> <Manufacturing /> </ProtectedRoute>}/>
               <Route path="*" element={<Error/>}/>
           </Routes>
         </main>
