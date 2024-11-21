@@ -13,8 +13,9 @@ const Login: React.FC = () => {
     const { instance } = useMsal();
     const { accounts, inProgress} = useMsal();
     const navigate = useNavigate();
+    type LoginType = "popup" | "redirect";
 
-    const handleLogin = (loginType) => {
+    const handleLogin = (loginType: LoginType) => {
         if (loginType === "popup"){
             instance.loginPopup({
                 ...loginRequest,

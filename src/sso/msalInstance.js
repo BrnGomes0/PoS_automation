@@ -6,7 +6,6 @@ export const msalAccount = new PublicClientApplication(msalConfig);
 msalAccount.initialize().then(() => {
   const accounts = msalAccount.getAllAccounts();
   console.log(accounts);
-  console.log(accounts[0].name);
   
   if (accounts.length > 0) {
     msalAccount.setActiveAccount(accounts[0]);
@@ -20,3 +19,4 @@ msalAccount.initialize().then(() => {
     }
   });
 });
+

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -8,10 +10,10 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "noEmit": false, //colocando falso
     "jsx": "react-jsx",
 
     /* Linting */
@@ -20,5 +22,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*"]
 }

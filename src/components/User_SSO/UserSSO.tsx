@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMsal } from "@azure/msal-react";
 import { callMsGraph } from "../../sso/MsGraphApiCalls.js";
-import { loginRequest } from "../../sso/authConfig";
+import { loginRequest } from "../../sso/authConfig.js";
 import { InteractionRequiredAuthError, InteractionStatus,} from "@azure/msal-browser";
 import PopUpUser from "../PopUpUser/PopUpUser.js";
 

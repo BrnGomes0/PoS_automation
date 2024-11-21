@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     const [activePath, setActivePath] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const handleClick = (path: string, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handleClick: (path: string, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void = (path, event) => {
         event.preventDefault();
         setActivePath(path);
         navigate(path)

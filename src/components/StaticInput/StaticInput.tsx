@@ -5,7 +5,7 @@ interface StaticInputProps{
     classname?: string;
     value: string;
     label: string;
-    style: React.CSSProperties;
+    style?: React.CSSProperties;
 }
 
 const StaticInput: React.FC<StaticInputProps> = ({classname, value, label, style}) => {
