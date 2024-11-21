@@ -7,11 +7,12 @@ import Header from "./components/Header/Header";
 import RegisterItem from "./pages/RegisterAItem/RegisterItem";
 import UseCase from "./pages/UseCase/UseCase";
 import Footer from "./components/Footer/Footer";
-import RegisterAInforRecord from "./Pages/RegisterAInforRecord/RegisterAInforRecord";
-import Warenhouse from "./Pages/WarenHouse/WarenHouse";
-import Manufacturing from "./Pages/Manufacturing/Manufacturing";
-import Login from "./Pages/Login/Login";
-import Error from "./Pages/ErrorPage/Error";
+import RegisterAInforRecord from "./pages/RegisterAInforRecord/RegisterAInforRecord";
+import Warenhouse from "./pages/WarenHouse/WarenHouse";
+// import Manufacturing from "./Pages/Manufacturing/Manufacturing";
+import Manufacturing from "./pages/Manufacturing/Manufacturing";
+import Login from "./pages/Login/Login";
+import Error from "./pages/ErrorPage/Error";
 import ProtectedRoute from "./sso/protectedRoute";
 const App = () => {
     const location = useLocation();
