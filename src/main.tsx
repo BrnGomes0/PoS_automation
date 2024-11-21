@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { MsalProvider } from "@azure/msal-react";
-import  msalAccount  from "./sso/msalInstance";
+import  { msalAccount }  from "./sso/msalInstance";
 import { BrowserRouter } from "react-router-dom";
 import { LogoutProvider } from "./components/LogoutProvider/LogoutProvider";
 

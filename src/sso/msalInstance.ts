@@ -22,5 +22,3 @@ msalAccount.initialize().then(() => {
     }
   });
 });
-
-export default msalAccount;

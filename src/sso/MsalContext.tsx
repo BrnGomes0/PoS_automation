@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState} from "react";
-import msalAccount from "../sso/msalInstance"
+import { msalAccount } from "../sso/msalInstance"
 import { AccountInfo } from "@azure/msal-browser";
 
 interface MsalContextProps { 
