@@ -51,7 +51,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
             if(valoresCriados > 1){
                 const putMaterial = filteredMaterials[valoresCriados-1].inventory_id;
 
-                const urlPutData = await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${putMaterial}`,{
+                await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${putMaterial}`,{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
                 });
@@ -65,7 +65,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
 
                 const firstMaterial = filteredMaterials[0].inventory_id;
 
-                const urlPutData = await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${firstMaterial}`,{
+                await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${firstMaterial}`,{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
                 });

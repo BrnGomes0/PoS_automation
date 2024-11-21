@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "esModuleInterop": true,
     "outDir": "./dist",
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -13,7 +14,7 @@
     // "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": false, //colocando falso
+    // "noEmit": true, //colocando falso
     "jsx": "react-jsx",
 
     /* Linting */

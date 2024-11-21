@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import './index.css'
 import Header from "./components/Header/Header";
-import RegisterItem from "./pages/RegisterAItem/RegisterItem";
-import UseCase from "./pages/UseCase/UseCase";
 import Footer from "./components/Footer/Footer";
 import RegisterAInforRecord from "./Pages/RegisterAInforRecord/RegisterAInforRecord";
-import Warenhouse from "./Pages/WarenHouse/WarenHouse";
 import Manufacturing from "./Pages/Manufacturing/Manufacturing";
 import Login from "./Pages/Login/Login";
 import Error from "./Pages/ErrorPage/Error";

@@ -29,6 +29,8 @@ const PriceInput: React.FC<PriceInputProps> = ({classname, value, placeholder, l
         const newPrice = formattedValue.replace("R$", "").trim();
         setPrice(newPrice);
 
+        console.log(value)
+
         //Passando o valor atualizado para o componente
         onPriceChange(newPrice)
 

@@ -10,8 +10,8 @@ import PopUpWarning from "../../components/popUpWarning/PopUpWarning";
 import WarningIconPopUp from "../../assets/alert-warning.png"
 
 const Warenhouse: React.FC = () => {
-    const [search, setSearch] = useState("");
-    const [id, setId] = useState<string>('')
+    const [, setSearch] = useState("");
+    const [id, ] = useState<string>('')
     const [selectedMaterial, setSelectedMaterial] = useState<"Material A - (Pen)" >("Material A - (Pen)")
     const [data, setData] = useState<any[]>([]);
     const [showWarning, setShowWarning] = useState(false);

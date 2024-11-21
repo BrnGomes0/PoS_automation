@@ -1,5 +1,3 @@
-import process from "process";
-
 export const msalConfig = {
   
     auth: {
@@ -16,9 +14,7 @@ export const msalConfig = {
       allowNativeBroker: false, 
     },
   };
-  export const loginRequest = {
-    scopes: ["openid", "User.Read"],
-  };
+  export const loginRequest = { scopes: ["openid", "User.Read"] };
   export const graphConfig = {
     graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
     graphMeEndpointPhoto: "https://graph.microsoft.com/v1.0/me/photo/$value",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TitleBig from "../../components/Title/Title_h1";
 import SubTitle from "../../components/SubTitle/SubTitle";
 import Box from "../../components/Box/Box";
@@ -76,15 +76,15 @@ const RegisterItem: React.FC  = () => {
         }));
     };
  
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log(inputValues);
-    };
+    // const handleSubmit = (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     console.log(inputValues);
+    // };
     
 
-    const handleButtonSubmit = () => {
-        console.log("Material Selected: ", selectedOption, "Valores: ", inputValues.input1, inputValues.input2);
-    };
+    // const handleButtonSubmit = () => {
+    //     console.log("Material Selected: ", selectedOption, "Valores: ", inputValues.input1, inputValues.input2);
+    // };
  
     const handleChange = (field: keyof typeof inputValues, value: string) => {
         setInputValues((prevValues) => ({

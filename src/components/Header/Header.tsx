@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Line from "../Icons/LineBosch/LineBosch";
 import BoschIcon from "../Icons/BoschIcon/BoschIcon";
-import Logoutbutton from "../LogoutButton/LogoutButton.js"
-import imgLogOut from "../../assets/exit.png"
 import UserSSO from "../User_SSO/UserSSO.js";
 
 

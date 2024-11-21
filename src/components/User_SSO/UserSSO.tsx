@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMsal } from "@azure/msal-react";
-import { callMsGraph } from "../../sso/MsGraphApiCalls.js";
-import { loginRequest } from "../../sso/authConfig.js";
+import callMsGraph  from "../../sso/MsGraphApiCalls.js";
+import { loginRequest } from "../../sso/authConfig";
 import { InteractionRequiredAuthError, InteractionStatus,} from "@azure/msal-browser";
 import PopUpUser from "../PopUpUser/PopUpUser.js";
 
@@ -13,9 +13,9 @@ interface UserSSO {
 const UserSSO: React.FC<UserSSO> = ({name, image}) => {
     
     const [imageUrl, setImageUrl] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const { instance, inProgress } = useMsal();
-    const account = instance.getActiveAccount();
+    const account = instance.getActiveAccount() ?? undefined;
     const [showPopUp, setShowPopUp] = useState(false);
 
     const openPopUpMethod = () => {
@@ -37,7 +37,7 @@ useEffect(() => {
           if (e instanceof InteractionRequiredAuthError) {
             instance.acquireTokenRedirect({
               ...loginRequest,
-              account: instance.getActiveAccount(),
+              account: instance.getActiveAccount() ?? undefined,
             });
           }
         });

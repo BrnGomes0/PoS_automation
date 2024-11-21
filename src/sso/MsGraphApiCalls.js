@@ -2,7 +2,7 @@ import axios from "axios";
 import { loginRequest, graphConfig } from "./authConfig";
 import { msalAccount } from "../sso/msalInstance";
 
-export async function callMsGraph() {
+const callMsGraph = async () => {
     try {
         const account = msalAccount.getActiveAccount();
         if (!account) {
@@ -38,3 +38,5 @@ export async function callMsGraph() {
         return { graphMeData: null, blobUrl: null };
     }
 }
+
+export default callMsGraph

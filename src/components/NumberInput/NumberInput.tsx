@@ -4,7 +4,7 @@ import Label from "../Label/Label";
 interface InputNumberProps{
     classname?: string;
     placeholder: string;
-    value?: number;
+    value?: number | string;
     label: string;
     method?: (value: string) => void; // Atualizado para ser uma função de callback
     style?: React.CSSProperties

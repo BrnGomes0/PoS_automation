@@ -1,6 +1,5 @@
 import React from "react";
-import Box from "../Box/Box.tsx"
-
+import Box from "../Box/Box";
 
 interface TableHeader{
     header: string;

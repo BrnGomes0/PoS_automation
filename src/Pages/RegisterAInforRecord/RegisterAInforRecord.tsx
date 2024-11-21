@@ -4,7 +4,6 @@ import SubTitle from "../../components/SubTitle/SubTitle";
 import Forms from "../../components/Forms/Forms";
 import Box from "../../components/Box/Box";
 import StaticInput from "../../components/StaticInput/StaticInput";
-import NumberInput from "../../components/NumberInput/NumberInput";
 import PriceInput from "../../components/PriceInput/PriceInput";
 import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,7 @@ const RegisterAInforRecord: React.FC = () => {
     const [supplierCode, setSupplierCode] = useState<string>('');
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string } | null > (null);
     const [price, setPrice] = useState<string>("0.00");
-    const [leadTime, setLeadTime] = useState<string>("1");
+    const [leadTime, ] = useState<string>("1");
 
     const fetchData = async () => {
         try{
@@ -99,10 +98,6 @@ const RegisterAInforRecord: React.FC = () => {
     const handlePriceChange = (newPrice: string) => {
         setPrice(newPrice)
     };
-
-    const handleLeadTimeChange = (newLeadTime: string) => {
-        setLeadTime(newLeadTime);
-    }
 
     useEffect(() =>{
         fetchData();

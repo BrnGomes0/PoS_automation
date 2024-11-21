@@ -6,14 +6,12 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/Button/Button";
 import PopUp from "../../components/PopUp/PopUp";
 import axios from "axios";
-import PopUpOk from "../../components/PopUpReturn/PopUpReturn";
-import PopUpError from "../../components/PopUpError/PopUpError";
 
 
 const Manufacturing: React.FC = () => {
     const [search, setSearch] = useState("");
     const [popUp, setPopUp] = useState(false);
-    const [selectedMaterial, setSelectedMaterial] = useState<"Material A - (Pen)" | "">("")
+    const [, setSelectedMaterial] = useState<"Material A - (Pen)" | "">("")
     const [data, setData] = useState<any[]>([]); //Armazenando os dados da API
 
     const fetchData = async (material: "Material A - (Pen)") =>{

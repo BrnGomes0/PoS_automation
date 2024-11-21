@@ -3,7 +3,7 @@ import imgLogout from "../../assets/exit.png"
 import { useLogout } from "../LogoutProvider/LogoutProvider"
 
 const logoutButton: React.FC = () => {
-  const { isLoggingOut, handleLogout } = useLogout(); // Estado para controlar o logout
+  const { handleLogout } = useLogout(); // Estado para controlar o logout
 
   return (
     <div className="p-4">

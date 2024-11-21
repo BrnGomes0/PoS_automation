@@ -1,12 +1,15 @@
 {
-
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-
   "compilerOptions": {
+    "moduleResolution": "node",
+    // "allowImportingTsExtensions": true,
+    "lib": ["dom", "esnext"],
+    "allowJs": true,
+    "noImplicitAny": false ,
     "target": "ESNext",
     "module": "ESNext",
     "jsx": "react-jsx",
@@ -16,5 +19,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*", "declarations.d.ts"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

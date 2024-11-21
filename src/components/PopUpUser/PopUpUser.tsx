@@ -10,7 +10,7 @@ interface PopUpUserProps {
 
 const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser }) => {
 
-    const { isLoggingOut, handleLogout } = useLogout();
+    const { handleLogout } = useLogout();
 
     return (
         <>
