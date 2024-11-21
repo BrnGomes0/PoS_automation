@@ -9,6 +9,10 @@ import Manufacturing from "./Pages/Manufacturing/Manufacturing";
 import Login from "./Pages/Login/Login";
 import Error from "./Pages/ErrorPage/Error";
 import ProtectedRoute from "./sso/protectedRoute";
+import RegisterItem from "./Pages/RegisterAItem/RegisterItem";
+import UseCase from "./Pages/UseCase/UseCase";
+import Warenhouse from "./Pages/WarenHouse/Warenhouse";
+
 
 const App = () => {
   const location = useLocation();
