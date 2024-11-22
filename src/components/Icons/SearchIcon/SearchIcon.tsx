@@ -7,7 +7,7 @@ interface SearchIconProps{
 const SearchIcon: React.FC<SearchIconProps> = ({className}) => {
     return(
         <img
-            src="/src/assets/searchIcon.png"
+            src="/assets/searchIcon.png"
             alt="Search Icon"
             className={className}
         />

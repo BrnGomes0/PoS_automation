@@ -56,7 +56,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                     orderReceived: inputValues.orderReceived
                 });
 
-                setPopUp({title: "New values updated", imageUrl: "/src/assets/correct.png"})
+                setPopUp({title: "New values updated", imageUrl: "/assets/correct.png"})
 
                 setTimeout(() =>{
                     setPopUp(null)
@@ -70,10 +70,10 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                     orderReceived: inputValues.orderReceived
                 });
 
-                setPopUp({title: "New values updated", imageUrl: "/src/assets/correct.png"})
+                setPopUp({title: "New values updated", imageUrl: "/assets/correct.png"})
             }
         }catch(error){
-            setPopUp({title: "Error for put the new values", imageUrl: "/src/assets/erro.png"})
+            setPopUp({title: "Error for put the new values", imageUrl: "/assets/erro.png"})
             console.log("Erro: ", error)
         }finally { 
             setTimeout(() =>{

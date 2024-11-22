@@ -7,7 +7,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import PopUpWarning from "../../components/popUpWarning/PopUpWarning";
-import WarningIconPopUp from "../../assets/alert-warning.png"
+import WarningIconPopUp from "/assets/alert-warning.png"
 
 const Warenhouse: React.FC = () => {
     const [, setSearch] = useState("");

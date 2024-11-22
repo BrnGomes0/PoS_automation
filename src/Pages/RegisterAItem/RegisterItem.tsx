@@ -33,21 +33,21 @@ const RegisterItem: React.FC  = () => {
                     });
                     
                     console.log("Data Send:", response.data)
-                    setPopUp({title: "Material Created", imageUrl: "/src/assets/correct.png"});
+                    setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
 
                     setTimeout(() => {
                         setPopUp(null);
                         navigate("/info_record")
                     }, 3000);
             }catch (error){
-                setPopUp({title: "Error connecting to database", imageUrl: "/src/assets/erro.png"})
+                setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
                 setTimeout(() =>{
                     setPopUp(null)
                 }, 3000);
                 console.log("Erro na conexão: ", error)
             }
         }else{
-            setPopUp({title: "Demand and initial inventory must be greater than 0!", imageUrl: "/src/assets/erro.png"})
+            setPopUp({title: "Demand and initial inventory must be greater than 0!", imageUrl: "/assets/erro.png"})
             setTimeout(() =>{
                 setPopUp(null)
             }, 3000)

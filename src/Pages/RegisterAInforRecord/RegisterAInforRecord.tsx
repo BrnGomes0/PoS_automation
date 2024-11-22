@@ -73,14 +73,14 @@ const RegisterAInforRecord: React.FC = () => {
                     console.log("Dados enviados: ", materialPost)
                     console.log("Post no inventory: ", inventoryPost)
                     console.log("Post no purchaseOrder: ", purchaseOrderPost)
-                    setPopUp({title: "Info-record created", imageUrl: "/src/assets/correct.png"})
+                    setPopUp({title: "Info-record created", imageUrl: "/assets/correct.png"})
 
                     setTimeout(() =>{
                         setPopUp(null)                    
                         navigate("/inventory_management")
                     }, 3000)
                 }catch (error){
-                        setPopUp({title: "Error in creation of Info-Record", imageUrl: "/src/assets/erro.png" })
+                        setPopUp({title: "Error in creation of Info-Record", imageUrl: "/assets/erro.png" })
 
                         setTimeout(() =>{
                             setPopUp(null)
@@ -88,7 +88,7 @@ const RegisterAInforRecord: React.FC = () => {
                         console.log("Erro ao enviar os dados: ", error)
                 }
             }else{
-                setPopUp({title: "Para este exercício, apenas LeadTime 1 deve ser considerado!", imageUrl: "/src/assets/erro.png"})
+                setPopUp({title: "Para este exercício, apenas LeadTime 1 deve ser considerado!", imageUrl: "/assets/erro.png"})
                 setTimeout(() =>{
                     setPopUp(null)
                 }, 3000)
