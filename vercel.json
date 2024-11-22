@@ -2,6 +2,15 @@
 {
     "rewrites":[
         { "source": "/(.*)", 
-        "destination": "/index.html"}
-    ]
+        "destination": "/index.html"
+    }
+    ],
+    "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
+    }
+  ]
 }
