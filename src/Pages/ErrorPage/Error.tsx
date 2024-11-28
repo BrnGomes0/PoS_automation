@@ -2,9 +2,9 @@ import React from "react"
 import TitleBig from "../../components/Title/Title_h1"
 import TitleSmall from "../../components/Title/Title_h3"
 //Vercel
-import image404 from "../../assets/404.png"
+// import image404 from "../../assets/404.png"
 //LocalHost
-// import image404 from "../../../public/assets/404.png"
+import image404 from "../../../public/assets/404.png"
 
 const Error: React.FC = () => {
     return(
