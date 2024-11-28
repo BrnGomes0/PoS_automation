@@ -16,7 +16,7 @@ interface PopUpProps{
 
 const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     const [popUp, setPopUp] = useState<{title: string, imageUrl?: string } | null > (null);
-    const [option, setSelectedOption] = useState<"Material A - (Pen)">("Material A - (Pen)")
+    const [option, setSelectedOption] = useState("")
     const [week, setWeek] = useState<string>("");
     const accounts = msalAccount.getAllAccounts()
     const contaToken =  accounts[0].idToken
@@ -43,7 +43,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
         }
     }
     
-    const fetchData = async (material: "Material A - (Pen)") =>{
+    const fetchData = async () =>{
         try{
             //pegar o ultimo inventory criado
             const dataInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all",{
@@ -52,14 +52,23 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 }
             })
 
-            console.log("Material do tipo: ", material)
+            console.log("Material do tipo: ", option)
             const filteredMaterials = dataInventory.data.filter((item: any) =>
-                item.materialName.toLowerCase() === material.toLowerCase()
+                item.materialName.toLowerCase() === option.toLowerCase()
             );
 
             const valoresCriados = filteredMaterials.length
+            console.log("Valor da const option: ", option)
+            if(option != "Material A - (Pen)"){
+                setPopUp({title: "Material not selectioned", imageUrl: "/assets/erro.png"})
 
-            if(valoresCriados > 1){
+                setTimeout(() =>{
+                    setPopUp(null)
+                }, 3000)
+            }
+
+            if(valoresCriados >= 1){
+                
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
@@ -73,7 +82,8 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
 
                 setTimeout(() =>{
                     setPopUp(null)
-                }, 3000)
+                    if (onClose) onClose();
+                }, 3000);
             } else if(valoresCriados == 1){
 
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
@@ -86,11 +96,15 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 });
 
                 setPopUp({title: "New values updated", imageUrl: "/assets/correct.png"})
+                setTimeout(() =>{
+                    setPopUp(null)
+                    if (onClose) onClose();
+                }, 3000);
+                
             }
         }catch(error){
             setPopUp({title: "Error for put the new values", imageUrl: "/assets/erro.png"})
             console.log("Erro: ", error)
-        }finally { 
             setTimeout(() =>{
                 setPopUp(null)
                 if (onClose) onClose();
@@ -165,7 +179,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                     <Button
                         text="Send"
                         classname="w-[90px] h-[30px]"
-                        onClick={() => fetchData(option)}
+                        onClick={() => fetchData()}
                     />
 
                     {popUp &&(

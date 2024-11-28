@@ -28,7 +28,7 @@ const RegisterAInforRecord: React.FC = () => {
         
             try{
                 // Converte o valor de price (string) para um número, removendo vírgulas e pontos
-                const responseGet = await axios.get("https://mrp-back-db-render.onrender.com/materials", {
+                const responseGet = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
                     headers:  {
                         Authorization: `Bearer ${contaToken}`
                     }

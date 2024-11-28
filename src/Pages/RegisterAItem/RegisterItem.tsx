@@ -14,6 +14,7 @@ import { msalAccount } from "../../sso/msalInstance"
 
 const RegisterItem: React.FC  = () => {
     const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const navigate = useNavigate()
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string;} | null > (null);
     const [selectedOption, setSelectedOption] = useState<string>("");  
@@ -24,46 +25,73 @@ const RegisterItem: React.FC  = () => {
         safetyStock: 0,
     });
 
+    // const verifyMaterial = async () => {
+        
+    // }
+
     const fetchData = async () => {
         if(accounts.length > 0){
-            const contaToken =  accounts[0].idToken
             msalAccount.setActiveAccount(accounts[0])
             console.log("Token da conta: ", contaToken)
-
-            if(inputValues.demand != 0 && inputValues.initialInventory != 0){
-                try{                    
-                        const response = await axios.post("https://mrp-back-db-render.onrender.com/material", {
-                            materialCode: inputValues.materialCode,
-                            demand: inputValues.demand,
-                            initialInventory: inputValues.initialInventory,
-                            safetyStock: inputValues.safetyStock
-                        }, {
-                             headers: {
+                 // if(inputValues.demand != 0 && inputValues.initialInventory != 0){
+                    try{
+                        const responseData = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
+                            headers:{
                                 Authorization: `Bearer ${contaToken}`
                             }
-                        });
-                        
-                        console.log("Data Send:", response.data)
-                        setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
+                        })
+                        console.log("teste2")
 
-                        setTimeout(() => {
-                            setPopUp(null);
-                            navigate("/info_record")
-                        }, 3000);
-                }catch (error){
-                    setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
-                    setTimeout(() =>{
-                        setPopUp(null)
-                    }, 3000);
-                    console.log("Erro na conexão: ", error)
-            }
-        }
-        }else{
-            setPopUp({title: "Demand and initial inventory must be greater than 0!", imageUrl: "/assets/erro.png"})
-            setTimeout(() =>{
-                setPopUp(null)
-            }, 3000)
-           
+                        const filteredMaterials = responseData.data.filter((item: any) =>
+                            item.materialName.toLowerCase() === "Material A - (Pen)".toLowerCase()
+                        );
+                        console.log("Tamanho: ", filteredMaterials.length)
+            
+                        if(filteredMaterials.length <= 0 ){
+                            try{                    
+                                    if(inputValues.demand == 0){
+                                        inputValues.demand == null
+                                    }else if (inputValues.initialInventory == 0){
+                                        inputValues.initialInventory == null
+                                    }
+                                    const response = await axios.post("https://mrp-back-db-render.onrender.com/material", {
+                                        materialCode: inputValues.materialCode,
+                                        demand: inputValues.demand,
+                                        initialInventory: inputValues.initialInventory,
+                                        safetyStock: inputValues.safetyStock
+                                    }, {
+                                        headers: {
+                                            Authorization: `Bearer ${contaToken}`
+                                        }
+                                    });
+                                    
+                                    console.log("Data Send:", response.data)
+                                    setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
+        
+                                    setTimeout(() => {
+                                        setPopUp(null);
+                                        navigate("/info_record")
+                                    }, 3000);
+                                }catch (error){
+                                    setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
+                                    setTimeout(() =>{
+                                        setPopUp(null)
+                                    }, 3000);
+                                    console.log("Erro na conexão: ", error)
+                                }
+
+                        }else{
+                            setPopUp({title: "It is just possible have 1 material per person", imageUrl: "/assets/erro.png"})
+                            setTimeout(() =>{
+                                setPopUp(null)
+                            }, 4000)
+                            
+                        }
+                    }catch{
+                        console.log("Problema para pegar o inventário no banco de dados")
+                    }
+            }else{
+            console.log("Nenhuma conta logada")
         }
     }
 
@@ -104,6 +132,10 @@ const RegisterItem: React.FC  = () => {
             [field]: field === "materialCode" ? value : convertToNumber(value) || 0
         }));
     }
+
+    // useEffect(() =>{
+    //     verifyMaterial("Material A - (Pen)")
+    // },[])   
 
     return(
         <section className="pt-[73px] flex flex-col justify-center items-center gap-10 pb-[365px]">

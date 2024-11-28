@@ -56,10 +56,10 @@ const Login: React.FC = () => {
                     <div className="flex flex-col justify-center items-center gap-10">
                         <div className="flex flex-col p-2">
                             <TitleBig
-                                title="MRP System"
+                                title="PoS Simulator"
                             />
                             <SubTitle
-                                subTitle="Login in the Simulator"
+                                subTitle="MRP System"
                             />
                         </div>
                         <div className="flex flex-col p-2 justify-center items-center gap-2">
