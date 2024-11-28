@@ -6,9 +6,11 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import Button from "../../components/Button/Button";
 import PopUp from "../../components/PopUp/PopUp";
 import axios from "axios";
-
+import { msalAccount } from "../../sso/msalInstance";
 
 const Manufacturing: React.FC = () => {
+    const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const [search, setSearch] = useState("");
     const [popUp, setPopUp] = useState(false);
     const [, setSelectedMaterial] = useState<"Material A - (Pen)" | "">("")
@@ -18,10 +20,14 @@ const Manufacturing: React.FC = () => {
         try{
             //Escolher a url de acordo com oq for clicado A ou B
             const url = material === "Material A - (Pen)"
-                ? "http://localhost:8081/purchaseOrder/allMaterialsA"
-                : "http://localhost:8081/purchaseOrder/allMaterialsA";
+                ? "https://mrp-back-db-render.onrender.com/purchaseOrder/allMaterialsA"
+                : "https://mrp-back-db-render.onrender.com/purchaseOrder/allMaterialsA";
 
-            const response = await axios.get(url);
+            const response = await axios.get(url, {
+                headers:{
+                    Authorization: `Bearer ${contaToken}`
+                }
+            });
 
             //Filtrando os materiais com base no materialText da API
             const filteredMaterials = response.data.filter((item: any) =>

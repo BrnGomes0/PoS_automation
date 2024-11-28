@@ -8,8 +8,11 @@ import Button from "../../components/Button/Button";
 import axios from "axios";
 import PopUpWarning from "../../components/popUpWarning/PopUpWarning";
 import WarningIconPopUp from "/assets/alert-warning.png"
+import { msalAccount } from "../../sso/msalInstance";
 
 const Warenhouse: React.FC = () => {
+    const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const [, setSearch] = useState("");
     const [id, ] = useState<string>('')
     const [selectedMaterial, setSelectedMaterial] = useState<"Material A - (Pen)" >("Material A - (Pen)")
@@ -23,27 +26,37 @@ const Warenhouse: React.FC = () => {
     };
 
     const fetchData = async (material: "Material A - (Pen)" ) =>{
-        try{
-            const responseData = await axios.get("http://localhost:/inventory/all")
-            const filteredMaterials = responseData.data.filter((item: any) =>
-                item.materialName.toLowerCase() === material.toLowerCase()
-           );
+        if(accounts.length > 0){
+            msalAccount.setActiveAccount(accounts[0])
+            try{
+                const responseData = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
+                    headers:{
+                        Authorization: `Bearer ${contaToken}`
+                    }
+                })
+                console.log("teste2")
+                const filteredMaterials = responseData.data.filter((item: any) =>
+                    item.materialName.toLowerCase() === material.toLowerCase()
+            );
 
-            setData(filteredMaterials)
+                setData(filteredMaterials)
 
-            if(filteredMaterials.length > 0){
-                console.log(responseData.data)
-            }else{
-            console.log("Nenhum dado encontrado no Back-End")
+                if(filteredMaterials.length > 0){
+                    console.log(responseData.data)
+                }else{
+                console.log("Nenhum dado encontrado no Back-End")
+                }
+                const lastItem = filteredMaterials[filteredMaterials.length - 1];
+                if (lastItem && lastItem.finalInventory < 0) {
+                    setShowWarning(true);
+                } else {
+                    setShowWarning(false);
+                }
+            }catch(error){
+            console.log("Erro na conexão do backend", error)
             }
-            const lastItem = filteredMaterials[filteredMaterials.length - 1];
-            if (lastItem && lastItem.finalInventory < 0) {
-                setShowWarning(true);
-            } else {
-                setShowWarning(false);
-            }
-        }catch(error){
-        console.log("Erro na conexão do backend", error)
+        }else{
+            console.log("Conta não encontrada")
         }
     }
 

@@ -8,6 +8,7 @@ import axios from "axios";
 import PopUpReturn from "../PopUpReturn/PopUpReturn";
 import DropDown from "../DropDown/DropDown";
 import StaticInput from "../StaticInput/StaticInput";
+import { msalAccount } from "../../sso/msalInstance";
 
 interface PopUpProps{
     onClose?: () => void
@@ -17,6 +18,8 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     const [popUp, setPopUp] = useState<{title: string, imageUrl?: string } | null > (null);
     const [option, setSelectedOption] = useState<"Material A - (Pen)">("Material A - (Pen)")
     const [week, setWeek] = useState<string>("");
+    const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const [inputValues, setInputValues] = useState<Record<string, string>>({
         materialConsumption: '0',
         orderReceived: '0'
@@ -28,7 +31,11 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     
     const fetchDataGetWeek = async() =>{
         try{
-            const dataGetWeek = await axios.get("http://localhost:8081/inventory/all")
+            const dataGetWeek = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all",{
+                headers:{
+                    Authorization: `Bearer ${contaToken}`
+                }
+            })
             const valores = dataGetWeek.data.length
 
             setWeek(dataGetWeek.data[valores-1].week)
@@ -39,7 +46,11 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     const fetchData = async (material: "Material A - (Pen)") =>{
         try{
             //pegar o ultimo inventory criado
-            const dataInventory = await axios.get("http://localhost:8081/inventory/all")
+            const dataInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all",{
+                headers:{
+                    Authorization: `Bearer ${contaToken}`
+                }
+            })
 
             console.log("Material do tipo: ", material)
             const filteredMaterials = dataInventory.data.filter((item: any) =>
@@ -49,11 +60,13 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
             const valoresCriados = filteredMaterials.length
 
             if(valoresCriados > 1){
-                const putMaterial = filteredMaterials[valoresCriados-1].inventory_id;
-
-                await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${putMaterial}`,{
+                await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
+                },{
+                    headers:{
+                        Authorization: `Bearer ${contaToken}`
+                    }
                 });
 
                 setPopUp({title: "New values updated", imageUrl: "/assets/correct.png"})
@@ -63,11 +76,13 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 }, 3000)
             } else if(valoresCriados == 1){
 
-                const firstMaterial = filteredMaterials[0].inventory_id;
-
-                await axios.post(`http://localhost:8081/purchaseOrder/updatePurchasingOrder/${firstMaterial}`,{
+                await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
+                }, {
+                    headers:{
+                        Authorization: `Bearer ${contaToken}`
+                    }
                 });
 
                 setPopUp({title: "New values updated", imageUrl: "/assets/correct.png"})

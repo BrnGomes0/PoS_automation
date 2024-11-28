@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+//LocalHost
+// import imageBosch from "../../../public/assets/login_bosch.png"
+//Vercel
 import imageBosch from "../../assets/login_bosch.png"
 import TitleBig from "../../components/Title/Title_h1";
 import SubTitle from "../../components/SubTitle/SubTitle";

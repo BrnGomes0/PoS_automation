@@ -10,8 +10,10 @@ import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
 import PopUpReturn from "../../components/PopUpReturn/PopUpReturn";
+import { msalAccount } from "../../sso/msalInstance"
 
 const RegisterItem: React.FC  = () => {
+    const accounts = msalAccount.getAllAccounts()
     const navigate = useNavigate()
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string;} | null > (null);
     const [selectedOption, setSelectedOption] = useState<string>("");  
@@ -23,29 +25,39 @@ const RegisterItem: React.FC  = () => {
     });
 
     const fetchData = async () => {
-        if(inputValues.demand != 0 && inputValues.initialInventory != 0){
-            try{                    
-                    const response = await axios.post("http://localhost:8081/material", {
-                        materialCode: inputValues.materialCode,
-                        demand: inputValues.demand,
-                        initialInventory: inputValues.initialInventory,
-                        safetyStock: inputValues.safetyStock
-                    });
-                    
-                    console.log("Data Send:", response.data)
-                    setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
+        if(accounts.length > 0){
+            const contaToken =  accounts[0].idToken
+            msalAccount.setActiveAccount(accounts[0])
+            console.log("Token da conta: ", contaToken)
 
-                    setTimeout(() => {
-                        setPopUp(null);
-                        navigate("/info_record")
+            if(inputValues.demand != 0 && inputValues.initialInventory != 0){
+                try{                    
+                        const response = await axios.post("https://mrp-back-db-render.onrender.com/material", {
+                            materialCode: inputValues.materialCode,
+                            demand: inputValues.demand,
+                            initialInventory: inputValues.initialInventory,
+                            safetyStock: inputValues.safetyStock
+                        }, {
+                             headers: {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        });
+                        
+                        console.log("Data Send:", response.data)
+                        setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
+
+                        setTimeout(() => {
+                            setPopUp(null);
+                            navigate("/info_record")
+                        }, 3000);
+                }catch (error){
+                    setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
+                    setTimeout(() =>{
+                        setPopUp(null)
                     }, 3000);
-            }catch (error){
-                setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
-                setTimeout(() =>{
-                    setPopUp(null)
-                }, 3000);
-                console.log("Erro na conexão: ", error)
+                    console.log("Erro na conexão: ", error)
             }
+        }
         }else{
             setPopUp({title: "Demand and initial inventory must be greater than 0!", imageUrl: "/assets/erro.png"})
             setTimeout(() =>{

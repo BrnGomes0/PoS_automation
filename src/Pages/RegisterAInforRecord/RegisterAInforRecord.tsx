@@ -9,8 +9,11 @@ import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PopUpReturn from "../../components/PopUpReturn/PopUpReturn";
+import { msalAccount } from "../../sso/msalInstance"
 
 const RegisterAInforRecord: React.FC = () => {
+    const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const navigate = useNavigate();
     const [materialCode, setMaterialCode] = useState<string>('');
     const [materialText, setMaterialText] = useState<string>('');
@@ -20,31 +23,44 @@ const RegisterAInforRecord: React.FC = () => {
     const [leadTime, ] = useState<string>("1");
 
     const fetchData = async () => {
-        try{
-            // Converte o valor de price (string) para um número, removendo vírgulas e pontos
-            const responseGet = await axios.get("http://localhost:8081/material/materials")
-            const responseLength = responseGet.data.length
-            
-            if (responseLength > 0){
-                console.log(responseGet.data[responseLength -1]) //Desse jeito ta pegando o ultimo material criado!
-                const lastMaterial = responseGet.data[responseLength -1].materialCode 
-                if(lastMaterial == 1230){
-                    setMaterialText('Material A - (Pen)')
-                    setSupplierCode("929028")
-                }else if(lastMaterial == 1240){
-                    setMaterialText('Material B - (Car)')
-                    setSupplierCode("989202")
+        if(accounts.length > 0){
+            msalAccount.setActiveAccount(accounts[0])
+        
+            try{
+                // Converte o valor de price (string) para um número, removendo vírgulas e pontos
+                const responseGet = await axios.get("https://mrp-back-db-render.onrender.com/materials", {
+                    headers:  {
+                        Authorization: `Bearer ${contaToken}`
+                    }
+                })
+                const responseLength = responseGet.data.length
+                
+                if (responseLength > 0){
+                    console.log(responseGet.data[responseLength -1]) //Desse jeito ta pegando o ultimo material criado!
+                    const lastMaterial = responseGet.data[responseLength -1].materialCode 
+                    if(lastMaterial == 1230){
+                        setMaterialText('Material A - (Pen)')
+                        setSupplierCode("929028")
+                    }else if(lastMaterial == 1240){
+                        setMaterialText('Material B - (Car)')
+                        setSupplierCode("989202")
+                    }else{
+                        setMaterialText("Unknown Material")
+                        setSupplierCode("666")
+                    }
+                    setMaterialCode(responseGet.data[responseLength -1].materialCode)
+                
                 }else{
-                    setMaterialText("Unknown Material")
-                    setSupplierCode("666")
+                    console.log("Nenhum dado encontrado!")
                 }
-                setMaterialCode(responseGet.data[responseLength -1].materialCode)
-            }else{
-                console.log("Nenhum dado encontrado!")
-            }
-        }catch (error){
-            console.error("Erro na conexão: ", error);
+                
+            }catch (error){
+                console.error("Erro na conexão: ", error);
         }
+    }else{
+          console.log("Erro para pegar a conta logada")  
+        }
+
     };
 
     const postData = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,21 +70,43 @@ const RegisterAInforRecord: React.FC = () => {
                     const formattedPrice = parseFloat(price.replace(/\./g, '').replace(',', '.'));
                     const formattedLeadTime = parseInt(leadTime)
                     
-                    const materialPost = await axios.post("http://localhost:8081/inforecord/test", {
-                        leadTime: formattedLeadTime,
+                    const materialPost = await axios.post("https://mrp-back-db-render.onrender.com/inforecord/register", {
                         price: formattedPrice,     
+                        leadTime: formattedLeadTime,
                     });
-
-                    const getMaterial = await axios.get("http://localhost:8081/material/materials")
+                    
+                    const getMaterial = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
+                        headers:  {
+                            Authorization: `Bearer ${contaToken}`
+                        }
+                    })
+                    
                     const idLastMaterial = getMaterial.data.length
 
                     console.log("Ultimo material dados: ", getMaterial.data)
 
-                    const inventoryPost = await axios.post(`http://localhost:8081/inventory/register/${idLastMaterial}`)
-                    const getInventory = await axios.get("http://localhost:8081/inventory/all")
+                    const inventoryPost = await axios.post("https://mrp-back-db-render.onrender.com/inventory/register",{
+                        uri : idLastMaterial
+                    },{
+                        headers:  {
+                            Authorization: `Bearer ${contaToken}`
+                        }
+                    })
+                    const getInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
+                        headers:  {
+                            Authorization: `Bearer ${contaToken}`
+                        }
+                    })
+
                     const idLastInventory = getInventory.data.length 
 
-                    const purchaseOrderPost = await axios.post(`http://localhost:8081/purchaseOrder/${idLastInventory}`)
+                    const purchaseOrderPost = await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder",{
+                        uri: idLastInventory
+                    },{
+                        headers:  {
+                            Authorization: `Bearer ${contaToken}`
+                        }
+                    })
 
                     console.log("Dados enviados: ", materialPost)
                     console.log("Post no inventory: ", inventoryPost)
