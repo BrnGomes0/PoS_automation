@@ -8,6 +8,7 @@ export const LogoutProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
   const { instance } = useMsal();
+  
 
   const handleLogout = async(logoutType: string) => {
     setIsLoggingOut(true);
@@ -15,6 +16,7 @@ export const LogoutProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     if (logoutType === "popup") {
       await instance.logoutPopup();
       setIsLoggingOut(false); // Finaliza o estado de logout
+
       navigate("/login"); // Redireciona após o logout
     }else if (logoutType === "redirect") {
         instance.logoutRedirect({
@@ -32,6 +34,8 @@ export const LogoutProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
 export const useLogout = () => {
   const context = useContext(LogoutContext);
+  
   if (!context) throw new Error("Erro ao deslogar");
+  
   return context;
 } 

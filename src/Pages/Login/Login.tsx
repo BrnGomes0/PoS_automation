@@ -22,8 +22,8 @@ const Login: React.FC = () => {
         if (loginType === "popup"){
             instance.loginPopup({
                 ...loginRequest,
-                redirectUri: "/use_case",
             });
+            navigate("/use_case")
         } else if (loginType === "redirect"){
             instance.loginRedirect(loginRequest);
         }

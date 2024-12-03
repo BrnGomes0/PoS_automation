@@ -25,10 +25,6 @@ const RegisterItem: React.FC  = () => {
         safetyStock: 0,
     });
 
-    // const verifyMaterial = async () => {
-        
-    // }
-
     const fetchData = async () => {
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])

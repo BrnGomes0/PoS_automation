@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "../Button/Button";
 import { useLogout } from "../LogoutProvider/LogoutProvider";
+import axios from "axios";
+import { msalAccount } from "../../sso/msalInstance";
 
 interface PopUpUserProps {
     closePopUp: () => void;
@@ -9,8 +11,31 @@ interface PopUpUserProps {
 }
 
 const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser }) => {
-
+    const accounts = msalAccount.getAllAccounts()
     const { handleLogout } = useLogout();
+
+    const deleteMapping = async () =>{
+        const contaToken =  accounts[0].idToken
+        console.log("Pegando o token para excluir", contaToken)
+
+        if(accounts.length > 0){
+            try{
+                msalAccount.setActiveAccount(accounts[0])
+                
+                await axios.delete("https://mrp-back-db-render.onrender.com/delete",{
+                    headers: {
+                        Authorization: `Bearer ${contaToken}`
+                    }})
+
+                handleLogout("popup")
+                
+            }catch{
+                console.log("Erro para deletar o material")
+            }
+        }else{
+        console.log("Não foi possivel pegar a conta")
+        }
+    }
 
     return (
         <>
@@ -21,10 +46,11 @@ const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser
                         <div className="p-4 flex flex-col justify-center items-center text-center gap-2">
                            <div> <h1 className="font-medium">Welcome, {nameofuser}</h1> </div>
                             <div>
+                                
                                 <Button
                                     classname=" h-[27px] w-[64px] text-sm"
                                     text="Logout"
-                                    onClick={() => handleLogout("popup")}
+                                    onClick={() => deleteMapping()}
                                 />
                             </div>
                         </div>
