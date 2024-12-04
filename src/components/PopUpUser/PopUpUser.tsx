@@ -12,11 +12,11 @@ interface PopUpUserProps {
 
 const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser }) => {
     const accounts = msalAccount.getAllAccounts()
-    const contaToken =  accounts[0].idToken
     const { handleLogout } = useLogout();
 
 
     const deleteMapping = async () =>{
+        const contaToken =  accounts[0].idToken
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])
             try{
