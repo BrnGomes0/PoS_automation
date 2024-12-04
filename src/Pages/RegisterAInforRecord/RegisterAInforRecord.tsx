@@ -121,9 +121,6 @@ const RegisterAInforRecord: React.FC = () => {
                         })
                         
                     setLoading(false)
-                    console.log("Dados enviados: ", materialPost)
-                    console.log("Post no inventory: ", inventoryPost)
-                    console.log("Post no purchaseOrder: ", purchaseOrderPost)
                     setPopUp({title: "Info-record created", imageUrl: "/assets/correct.png"})
 
                     setTimeout(() =>{
@@ -140,6 +137,7 @@ const RegisterAInforRecord: React.FC = () => {
                         console.log("Erro ao enviar os dados: ", error)
                 }
             }else{
+                setLoading(false)
                 setPopUp({title: "Para este exercício, apenas LeadTime 1 deve ser considerado!", imageUrl: "/assets/erro.png"})
                 setTimeout(() =>{
                     setPopUp(null)

@@ -28,6 +28,7 @@ const RegisterItem: React.FC  = () => {
     });
 
     const fetchData = async () => {
+        setLoading(true)
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])
             console.log("Token da conta: ", contaToken)
@@ -49,7 +50,6 @@ const RegisterItem: React.FC  = () => {
             
                         if(filteredMaterials.length <= 0 ){
                             try{        
-                                            setLoading(true)
                                             // const response = await axios.post("http://localhost:8081/material",{
                                             const response = await axios.post("https://mrp-back-db-render.onrender.com/material",{
                                                 materialCode: inputValues.materialCode,
@@ -80,6 +80,7 @@ const RegisterItem: React.FC  = () => {
                                 }
 
                         }else{
+                            setLoading(false)
                             setPopUp({title: "It is just possible have 1 material per person", imageUrl: "/assets/erro.png"})
                             setTimeout(() =>{
                                 setPopUp(null)
@@ -87,9 +88,11 @@ const RegisterItem: React.FC  = () => {
                             
                         }
                     }catch{
+                        setLoading(false)
                         console.log("Problema para pegar o inventário no banco de dados")
                     }
             }else{
+            setLoading(false)
             console.log("Nenhuma conta logada")
         }
     }
