@@ -17,6 +17,7 @@ interface PopUpProps{
 const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     const [popUp, setPopUp] = useState<{title: string, imageUrl?: string } | null > (null);
     const [option, setSelectedOption] = useState("")
+    const [loading, setLoading] = useState(false)
     const [week, setWeek] = useState<string>("");
     const accounts = msalAccount.getAllAccounts()
     const contaToken =  accounts[0].idToken
@@ -70,7 +71,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
             }
 
             if(valoresCriados >= 1){
-                
+                setLoading(true)
                 // await axios.post("http://localhost:8081/purchaseOrder/updatePurchasingOrder",{
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
@@ -88,7 +89,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                     if (onClose) onClose();
                 }, 3000);
             } else if(valoresCriados == 1){
-
+                setLoading(true)
                 // await axios.post("http://localhost:8081/purchaseOrder/updatePurchasingOrder",{
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
@@ -113,6 +114,8 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 setPopUp(null)
                 if (onClose) onClose();
             }, 3000);
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -180,12 +183,15 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                     </div>
                 </div>
                 <div className="pb-6">
-                    <Button
-                        text="Send"
-                        classname="w-[90px] h-[30px]"
-                        onClick={() => fetchData()}
-                    />
-
+                    {loading ? (
+                        <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"/>
+                    ) : (
+                        <Button
+                            text="Send"
+                            classname="w-[90px] h-[30px]"
+                            onClick={() => fetchData()}
+                        />
+                    )}
                     {popUp &&(
                         <PopUpReturn 
                             title={popUp.title}

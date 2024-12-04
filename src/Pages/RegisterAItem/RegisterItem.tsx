@@ -17,7 +17,7 @@ const RegisterItem: React.FC  = () => {
     const contaToken =  accounts[0].idToken
     const navigate = useNavigate()
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string;} | null > (null);
-    const [loading, setLoading] = useState<Boolean>()
+    const [loading, setLoading] = useState(false)
 
     const [selectedOption, setSelectedOption] = useState<string>("");  
     const [inputValues, setInputValues] = useState<Record<string, number | string>>({
@@ -28,13 +28,12 @@ const RegisterItem: React.FC  = () => {
     });
 
     const fetchData = async () => {
-        setLoading(true)
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])
             console.log("Token da conta: ", contaToken)
                  // if(inputValues.demand != 0 && inputValues.initialInventory != 0){
                     try{
-                        
+                        setLoading(true)
                         // const responseData = await axios.get("http://localhost:8081/inventory/all", {
                         const responseData = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
                             headers:{
@@ -62,7 +61,6 @@ const RegisterItem: React.FC  = () => {
                                                 }
                                                 });
 
-                                            setLoading(false)
                                             console.log("Data Send:", response.data)
                                             setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
                 
@@ -71,25 +69,27 @@ const RegisterItem: React.FC  = () => {
                                                 navigate("/info_record")
                                             }, 5000);
                                 }catch (error){
-                                    setLoading(false)
                                     setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
                                     setTimeout(() =>{
                                         setPopUp(null)
                                     }, 3000);
                                     console.log("Erro na conexão: ", error)
+                                }finally{
+                                    setLoading(false)
                                 }
 
                         }else{
-                            setLoading(false)
                             setPopUp({title: "It is just possible have 1 material per person", imageUrl: "/assets/erro.png"})
                             setTimeout(() =>{
                                 setPopUp(null)
                             }, 4000)
-                            
+                            setLoading(false)
                         }
                     }catch{
                         setLoading(false)
                         console.log("Problema para pegar o inventário no banco de dados")
+                    }finally{
+                        setLoading(false)
                     }
             }else{
             setLoading(false)
@@ -192,22 +192,22 @@ const RegisterItem: React.FC  = () => {
                             />
                         </div>
                             <div className="flex justify-center items p-[130px] ">
-                                <Button
+
+                                {loading ? (
+                                    <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"/>
+                                ) : (
+                                    <Button
                                     text="Create"
                                     onClick={fetchData}
                                 />
+                                )}
                                 {popUp && (
                                     <PopUpReturn
                                         title={popUp.title}
                                         imageUrl={popUp.imageUrl}
                                         />
                                 )}
-                                {loading && (
-                                    <PopUpReturn
-                                        title="Carregando"
-                                        imageUrl="/assets/correct.png"
-                                        />
-                                )}
+                                
                             </div>
                     </Forms>
                 </Box>

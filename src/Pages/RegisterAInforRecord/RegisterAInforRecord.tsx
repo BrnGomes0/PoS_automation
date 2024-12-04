@@ -19,7 +19,7 @@ const RegisterAInforRecord: React.FC = () => {
     const [materialText, setMaterialText] = useState<string>('');
     const [supplierCode, setSupplierCode] = useState<string>('');
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string } | null > (null);
-    const [loading, setLoading] = useState<boolean>()
+    const [loading, setLoading] = useState(false)
     const [price, setPrice] = useState<string>("0.00");
     const [leadTime, ] = useState<string>("1");
 
@@ -67,7 +67,6 @@ const RegisterAInforRecord: React.FC = () => {
 
     const postData = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        if(leadTime == "1"){
             try{
                     const formattedPrice = parseFloat(price.replace(/\./g, '').replace(',', '.'));
                     const formattedLeadTime = parseInt(leadTime)
@@ -120,7 +119,6 @@ const RegisterAInforRecord: React.FC = () => {
                             }
                         })
                         
-                    setLoading(false)
                     setPopUp({title: "Info-record created", imageUrl: "/assets/correct.png"})
 
                     setTimeout(() =>{
@@ -128,22 +126,16 @@ const RegisterAInforRecord: React.FC = () => {
                         navigate("/inventory_management")
                     }, 3000)
                 }catch (error){
-                        setLoading(false)
                         setPopUp({title: "Error in creation of Info-Record", imageUrl: "/assets/erro.png" })
 
                         setTimeout(() =>{
                             setPopUp(null)
                         }, 3000)
                         console.log("Erro ao enviar os dados: ", error)
+                }finally{
+                    setLoading(false)
                 }
-            }else{
-                setLoading(false)
-                setPopUp({title: "Para este exercício, apenas LeadTime 1 deve ser considerado!", imageUrl: "/assets/erro.png"})
-                setTimeout(() =>{
-                    setPopUp(null)
-                }, 3000)
         }
-    };
 
     const handlePriceChange = (newPrice: string) => {
         setPrice(newPrice)
@@ -197,22 +189,22 @@ const RegisterAInforRecord: React.FC = () => {
                         />
                    </div>
                    <div className="flex justify-center items-center p-40">
-                            <Button
-                                text="Create"
-                                onClick={postData}
-                            />
+                            {loading ? (
+                                <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"/> 
+                            ) : ( 
+                                <Button
+                                    text="Create"
+                                    onClick={postData}
+                                />
+                                )}
+                            
                             {popUp &&(
                                 <PopUpReturn 
                                     title={popUp.title}
                                     imageUrl={popUp.imageUrl}
                                 />
                             )}
-                            {loading &&(
-                                <PopUpReturn
-                                    title="Carregando"
-                                    imageUrl="/assets/correct.png"
-                                />
-                            )}
+                            
                     </div>
                 </Forms>
                 
