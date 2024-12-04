@@ -4,7 +4,7 @@ import SubTitle from "../SubTitle/SubTitle";
 
 interface DescriptionTwoValuesProps {
     valueBold: string;
-    valueLight: string;
+    valueLight?: string;
 }
 
 const DescriptionTwoValues: React.FC<DescriptionTwoValuesProps> = ({valueBold, valueLight}) => {

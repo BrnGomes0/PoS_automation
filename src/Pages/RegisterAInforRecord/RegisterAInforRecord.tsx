@@ -70,7 +70,7 @@ const RegisterAInforRecord: React.FC = () => {
                     const formattedPrice = parseFloat(price.replace(/\./g, '').replace(',', '.'));
                     const formattedLeadTime = parseInt(leadTime)
                     
-                    const materialPost = await axios.post("https://mrp-back-db-render.onrender.com/register", {
+                    const materialPost = await axios.post("https://mrp-back-db-render.onrender.com/inforecord/register", {
                         price: formattedPrice,     
                         leadTime: formattedLeadTime,
                     }, {
@@ -79,7 +79,7 @@ const RegisterAInforRecord: React.FC = () => {
                         }
                     });
                     
-                    const getMaterial = await axios.get("https://mrp-back-db-render.onrender.com/materials", {
+                    const getMaterial = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
                         headers:  {
                             Authorization: `Bearer ${contaToken}`
                         }

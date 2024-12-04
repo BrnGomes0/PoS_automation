@@ -184,6 +184,7 @@ const RegisterItem: React.FC  = () => {
                                 value={convertToNumber(inputValues.safetyStock)}
                                 method={(safetyStock) => handleChange('safetyStock', safetyStock)}
                             />
+                            
                         </div>
                             <div className="flex justify-center items p-[130px] ">
                                 <Button

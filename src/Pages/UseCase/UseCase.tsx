@@ -24,31 +24,55 @@ const UseCase: React.FC = () => {
                         <div className="flex flex-col gap-1">
                             <TitleSmall title="Supplier Information"/>
                             <DescriptionTwoValues
-                                valueBold="Supplier Code Material A (Pen): "
-                                valueLight="929028"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <TitleSmall title="Lead Time"/>
-                            <DescriptionTwoValues
-                                valueBold="Material A (Pen): "
-                                valueLight="1 Week"
+                                valueBold="Supplier Code A"
                             />
                         </div>
                         <div className="flex flex-col gap-1">
                             <TitleSmall 
                                 title="Material Information"/>
                             <DescriptionTwoValues
-                                valueBold="Material Code A (Pen): "
-                                valueLight="1230"
+                                valueBold="Material Code A (Pen)"
                             />
                         </div>
+
+                        <div className="flex flex-col gap-1">
+                            <TitleSmall title="Average Demand"/>
+                            <DescriptionTwoValues
+                                valueBold="10 Pieces/Week"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <TitleSmall title="Initial Inventory"/>
+                            <DescriptionTwoValues
+                                valueBold="10 Pieces"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <TitleSmall title="Safety Stock"/>
+                            <DescriptionTwoValues
+                                valueBold="10 Pieces -> based on average weekly demand"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <TitleSmall title="Delivery Lead Time"/>
+                            <DescriptionTwoValues
+                                valueBold="1 Week"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <TitleSmall title="Price"/>
+                            <DescriptionTwoValues
+                                valueBold="R$5,00"
+                            />
+                        </div>
+                        
                         <div className="flex flex-col gap-1">
                             <TitleSmall 
-                                title="Bill of Materials (BOM)"/>
-                            <SubTitleBold
-                                subTitleBold="Each packaging contains 2 Pens"
-                            />
+                                title="The maximum delivery quantity it is the available on hand inventory."/>
                         </div>
                     </div>
                 </Box>
