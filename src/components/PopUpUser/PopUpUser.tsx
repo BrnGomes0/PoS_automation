@@ -16,13 +16,12 @@ const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser
 
 
     const deleteMapping = async () =>{
-        const contaToken =  accounts[0].idToken
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])
             try{
                 await axios.delete("https://mrp-back-db-render.onrender.com/delete",{
                     headers: {
-                        Authorization: `Bearer ${contaToken}`
+                        Authorization: `Bearer ${accounts[0].idToken}`
                     }})
             }catch{
                 console.log("Erro para deletar o material")
