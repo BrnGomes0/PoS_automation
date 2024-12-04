@@ -26,11 +26,10 @@ const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser
                     headers: {
                         Authorization: `Bearer ${contaToken}`
                     }})
-
-                handleLogout("popup")
-                
             }catch{
                 console.log("Erro para deletar o material")
+            }finally{
+                handleLogout("popup")
             }
         }else{
         console.log("Não foi possivel pegar a conta")

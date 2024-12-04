@@ -69,7 +69,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
 
             if(valoresCriados >= 1){
                 
-                await axios.post("https://mrp-back-db-render.onrender.com/updatePurchasingOrder",{
+                await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
                 },{
@@ -86,7 +86,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 }, 3000);
             } else if(valoresCriados == 1){
 
-                await axios.post("https://mrp-back-db-render.onrender.com/updatePurchasingOrder",{
+                await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
                 }, {
