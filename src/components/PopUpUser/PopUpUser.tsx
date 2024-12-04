@@ -12,16 +12,14 @@ interface PopUpUserProps {
 
 const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser }) => {
     const accounts = msalAccount.getAllAccounts()
+    const contaToken =  accounts[0].idToken
     const { handleLogout } = useLogout();
 
-    const deleteMapping = async () =>{
-        const contaToken =  accounts[0].idToken
-        console.log("Pegando o token para excluir", contaToken)
 
+    const deleteMapping = async () =>{
         if(accounts.length > 0){
+            msalAccount.setActiveAccount(accounts[0])
             try{
-                msalAccount.setActiveAccount(accounts[0])
-                
                 await axios.delete("https://mrp-back-db-render.onrender.com/delete",{
                     headers: {
                         Authorization: `Bearer ${contaToken}`
