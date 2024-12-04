@@ -19,6 +19,7 @@ const RegisterAInforRecord: React.FC = () => {
     const [materialText, setMaterialText] = useState<string>('');
     const [supplierCode, setSupplierCode] = useState<string>('');
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string } | null > (null);
+    const [loading, setLoading] = useState<boolean>()
     const [price, setPrice] = useState<string>("0.00");
     const [leadTime, ] = useState<string>("1");
 
@@ -28,6 +29,7 @@ const RegisterAInforRecord: React.FC = () => {
         
             try{
                 // Converte o valor de price (string) para um número, removendo vírgulas e pontos
+                // const responseGet = await axios.get("http://localhost:8081/material/materials", {
                 const responseGet = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
                     headers:  {
                         Authorization: `Bearer ${contaToken}`
@@ -69,49 +71,56 @@ const RegisterAInforRecord: React.FC = () => {
             try{
                     const formattedPrice = parseFloat(price.replace(/\./g, '').replace(',', '.'));
                     const formattedLeadTime = parseInt(leadTime)
-                    
-                    const materialPost = await axios.post("https://mrp-back-db-render.onrender.com/inforecord/register", {
-                        price: formattedPrice,     
-                        leadTime: formattedLeadTime,
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${contaToken}`
-                        }
-                    });
-                    
-                    const getMaterial = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
-                        headers:  {
-                            Authorization: `Bearer ${contaToken}`
-                        }
-                    })
-                    
-                    const idLastMaterial = getMaterial.data.length
 
-                    console.log("Ultimo material dados: ", getMaterial.data)
+                        setLoading(true)
+                        // const materialPost = await axios.post("http://localhost:8081/inforecord/register", {
+                        const materialPost = await axios.post("https://mrp-back-db-render.onrender.com/inforecord/register", {
+                            price: formattedPrice,     
+                            leadTime: formattedLeadTime,
+                        }, {
+                            headers: {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        });
+                        
+                        // const getMaterial = await axios.get("http://localhost:8081/material/materials", {
+                        const getMaterial = await axios.get("https://mrp-back-db-render.onrender.com/material/materials", {
+                            headers:  {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        })
+                        
+                        const idLastMaterial = getMaterial.data.length
 
-                    const inventoryPost = await axios.post("https://mrp-back-db-render.onrender.com/inventory/register",{
-                        uri : idLastMaterial
-                    },{
-                        headers:  {
-                            Authorization: `Bearer ${contaToken}`
-                        }
-                    })
-                    const getInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
-                        headers:  {
-                            Authorization: `Bearer ${contaToken}`
-                        }
-                    })
+                        console.log("Ultimo material dados: ", getMaterial.data)
 
-                    const idLastInventory = getInventory.data.length 
+                        // const inventoryPost = await axios.post("http://localhost:8081/inventory/register",{
+                        const inventoryPost = await axios.post("https://mrp-back-db-render.onrender.com/inventory/register",{
+                            uri : idLastMaterial
+                        },{
+                            headers:  {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        })
+                        // const getInventory = await axios.get("http://localhost:8081/inventory/all", {
+                        const getInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
+                            headers:  {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        })
 
-                    const purchaseOrderPost = await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder",{
-                        uri: idLastInventory
-                    },{
-                        headers:  {
-                            Authorization: `Bearer ${contaToken}`
-                        }
-                    })
+                        const idLastInventory = getInventory.data.length 
 
+                        // const purchaseOrderPost = await axios.post("http://localhost:8081/purchaseOrder",{
+                        const purchaseOrderPost = await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder",{
+                            uri: idLastInventory
+                        },{
+                            headers:  {
+                                Authorization: `Bearer ${contaToken}`
+                            }
+                        })
+                        
+                    setLoading(false)
                     console.log("Dados enviados: ", materialPost)
                     console.log("Post no inventory: ", inventoryPost)
                     console.log("Post no purchaseOrder: ", purchaseOrderPost)
@@ -122,6 +131,7 @@ const RegisterAInforRecord: React.FC = () => {
                         navigate("/inventory_management")
                     }, 3000)
                 }catch (error){
+                        setLoading(false)
                         setPopUp({title: "Error in creation of Info-Record", imageUrl: "/assets/erro.png" })
 
                         setTimeout(() =>{
@@ -197,6 +207,12 @@ const RegisterAInforRecord: React.FC = () => {
                                 <PopUpReturn 
                                     title={popUp.title}
                                     imageUrl={popUp.imageUrl}
+                                />
+                            )}
+                            {loading &&(
+                                <PopUpReturn
+                                    title="Carregando"
+                                    imageUrl="/assets/correct.png"
                                 />
                             )}
                     </div>

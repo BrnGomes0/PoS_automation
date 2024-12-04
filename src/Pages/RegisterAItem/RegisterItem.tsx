@@ -17,6 +17,8 @@ const RegisterItem: React.FC  = () => {
     const contaToken =  accounts[0].idToken
     const navigate = useNavigate()
     const [popUp, setPopUp] = useState<{ title: string; imageUrl?: string;} | null > (null);
+    const [loading, setLoading] = useState<Boolean>()
+
     const [selectedOption, setSelectedOption] = useState<string>("");  
     const [inputValues, setInputValues] = useState<Record<string, number | string>>({
         materialCode: '',
@@ -31,6 +33,8 @@ const RegisterItem: React.FC  = () => {
             console.log("Token da conta: ", contaToken)
                  // if(inputValues.demand != 0 && inputValues.initialInventory != 0){
                     try{
+                        
+                        // const responseData = await axios.get("http://localhost:8081/inventory/all", {
                         const responseData = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
                             headers:{
                                 Authorization: `Bearer ${contaToken}`
@@ -44,31 +48,30 @@ const RegisterItem: React.FC  = () => {
                         console.log("Tamanho: ", filteredMaterials.length)
             
                         if(filteredMaterials.length <= 0 ){
-                            try{                    
-                                    if(inputValues.demand == 0){
-                                        inputValues.demand == null
-                                    }else if (inputValues.initialInventory == 0){
-                                        inputValues.initialInventory == null
-                                    }
-                                    const response = await axios.post("https://mrp-back-db-render.onrender.com/material", {
-                                        materialCode: inputValues.materialCode,
-                                        demand: inputValues.demand,
-                                        initialInventory: inputValues.initialInventory,
-                                        safetyStock: inputValues.safetyStock
-                                    }, {
-                                        headers: {
-                                            Authorization: `Bearer ${contaToken}`
-                                        }
-                                    });
-                                    
-                                    console.log("Data Send:", response.data)
-                                    setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
-        
-                                    setTimeout(() => {
-                                        setPopUp(null);
-                                        navigate("/info_record")
-                                    }, 3000);
+                            try{        
+                                            setLoading(true)
+                                            // const response = await axios.post("http://localhost:8081/material",{
+                                            const response = await axios.post("https://mrp-back-db-render.onrender.com/material",{
+                                                materialCode: inputValues.materialCode,
+                                                demand: inputValues.demand === 0 ? null : inputValues.demand,
+                                                initialInventory: inputValues.initialInventory === 0 ? null : inputValues.initialInventory,
+                                                safetyStock: inputValues.safetyStock
+                                            },{
+                                                headers: {
+                                                    Authorization: `Bearer ${contaToken}`
+                                                }
+                                                });
+
+                                            setLoading(false)
+                                            console.log("Data Send:", response.data)
+                                            setPopUp({title: "Material Created", imageUrl: "/assets/correct.png"});
+                
+                                            setTimeout(() => {
+                                                setPopUp(null);
+                                                navigate("/info_record")
+                                            }, 5000);
                                 }catch (error){
+                                    setLoading(false)
                                     setPopUp({title: "Error connecting to database", imageUrl: "/assets/erro.png"})
                                     setTimeout(() =>{
                                         setPopUp(null)
@@ -194,6 +197,12 @@ const RegisterItem: React.FC  = () => {
                                     <PopUpReturn
                                         title={popUp.title}
                                         imageUrl={popUp.imageUrl}
+                                        />
+                                )}
+                                {loading && (
+                                    <PopUpReturn
+                                        title="Carregando"
+                                        imageUrl="/assets/correct.png"
                                         />
                                 )}
                             </div>

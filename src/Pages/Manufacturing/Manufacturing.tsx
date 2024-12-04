@@ -22,6 +22,8 @@ const Manufacturing: React.FC = () => {
             const url = material === "Material A - (Pen)"
                 ? "https://mrp-back-db-render.onrender.com/purchaseOrder/allMaterialsA"
                 : "https://mrp-back-db-render.onrender.com/purchaseOrder/allMaterialsA";
+                // ? "http://localhost:8081/purchaseOrder/allMaterialsA"
+                // : "http://localhost:8081/purchaseOrder/allMaterialsA";
 
             const response = await axios.get(url, {
                 headers:{

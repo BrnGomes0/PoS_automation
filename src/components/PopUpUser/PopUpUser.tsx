@@ -15,23 +15,32 @@ const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser
     const { handleLogout } = useLogout();
 
 
-    const deleteMapping = async () =>{
-        if(accounts.length > 0){
-            msalAccount.setActiveAccount(accounts[0])
-            try{
-                await axios.delete("https://mrp-back-db-render.onrender.com/delete",{
-                    headers: {
-                        Authorization: `Bearer ${accounts[0].idToken}`
-                    }})
-            }catch{
-                console.log("Erro para deletar o material")
-            }finally{
-                handleLogout("popup")
+    const deleteMapping = async () => {
+        if (accounts.length > 0) {
+          msalAccount.setActiveAccount(accounts[0]);
+          try {
+            // const response = await axios.delete('http://localhost:8081/delete', {
+            const response = await axios.delete('https://mrp-back-db-render.onrender.com/delete', {
+              headers: {
+                Authorization: `Bearer ${accounts[0].idToken}`,
+              },
+            });
+            console.log('Recurso deletado com sucesso:', response.data);
+          } catch (error) {
+            if (error.response) {
+              // Captura e exibe a resposta do erro da API
+              console.error('Erro ao deletar material:', error.response.data);
+            } else {
+              // Caso não tenha uma resposta
+              console.error('Erro inesperado ao deletar material.');
             }
-        }else{
-        console.log("Não foi possivel pegar a conta")
+          } finally {
+            handleLogout("popup");
+          }
+        } else {
+          console.error('Não foi possível pegar a conta');
         }
-    }
+      };
 
     return (
         <>

@@ -31,6 +31,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     
     const fetchDataGetWeek = async() =>{
         try{
+            // const dataGetWeek = await axios.get("http://localhost:8081/inventory/all",{
             const dataGetWeek = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all",{
                 headers:{
                     Authorization: `Bearer ${contaToken}`
@@ -46,6 +47,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
     const fetchData = async () =>{
         try{
             //pegar o ultimo inventory criado
+            // const dataInventory = await axios.get("http://localhost:8081/inventory/all",{
             const dataInventory = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all",{
                 headers:{
                     Authorization: `Bearer ${contaToken}`
@@ -69,6 +71,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
 
             if(valoresCriados >= 1){
                 
+                // await axios.post("http://localhost:8081/purchaseOrder/updatePurchasingOrder",{
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived
@@ -86,6 +89,7 @@ const PopUp: React.FC<PopUpProps>= ({onClose }) => {
                 }, 3000);
             } else if(valoresCriados == 1){
 
+                // await axios.post("http://localhost:8081/purchaseOrder/updatePurchasingOrder",{
                 await axios.post("https://mrp-back-db-render.onrender.com/purchaseOrder/updatePurchasingOrder",{
                     demand: inputValues.materialConsumption,
                     orderReceived: inputValues.orderReceived

@@ -29,6 +29,7 @@ const Warenhouse: React.FC = () => {
         if(accounts.length > 0){
             msalAccount.setActiveAccount(accounts[0])
             try{
+                // const responseData = await axios.get("http://localhost:8081/inventory/all", {
                 const responseData = await axios.get("https://mrp-back-db-render.onrender.com/inventory/all", {
                     headers:{
                         Authorization: `Bearer ${contaToken}`
