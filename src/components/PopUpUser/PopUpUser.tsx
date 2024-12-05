@@ -22,18 +22,12 @@ const PopUpUser: React.FC<PopUpUserProps> = ({ closePopUp, openPopUp, nameofuser
             // const response = await axios.delete('http://localhost:8081/delete', {
             const response = await axios.delete('https://mrp-back-db-render.onrender.com/delete', {
               headers: {
-                Authorization: `Bearer ${accounts[0].idToken}`,
-                "Content-Type": "application/json",
+                Authorization: `Bearer ${accounts[0].idToken}`
               },
             });
             console.log('Recurso deletado com sucesso:', response.data);
           } catch (error) {
-            // if (error.response) {
-              // Captura e exibe a resposta do erro da API
               console.error('Erro ao deletar material:', error);
-            // } else {
-              // Caso não tenha uma resposta
-            //   console.error('Erro inesperado ao deletar material.');
           } finally {
             handleLogout("popup");
           }
